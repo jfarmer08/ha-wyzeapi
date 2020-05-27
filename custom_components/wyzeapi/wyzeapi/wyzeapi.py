@@ -10,9 +10,9 @@ from .wyzeapi_exceptions import WyzeApiError, AccessTokenError
 from .wyze_request import WyzeRequest
 from .wyze_bulb import WyzeBulb
 from .wyze_switch import WyzeSwitch
-from .wyze_sensor import WyzeContactSensor, WyzeMotionSensor
 from .wyze_lock import WyzeLock
-
+from .sensors.wyze_contact import WyzeContactSensor
+from .sensors.wyze_motion import WyzeMotionSensor
 
 class WyzeApi():
     def __init__(self, user_name, password):
