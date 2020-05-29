@@ -9,6 +9,8 @@ This is a custom component to allow control of Wyze Bulbs and Switches in Homeas
 * View Wyze Sensors as binary_sensor through HA
 * View Wyze Lock Status and Door Status as lock through HA
 	* Note: Currently you can only view the lock status or door status. Lock and Unlock does not work!
+* View Wyze Cam V2 and Pan using RTSP. 
+	* Note: Supports camera.turn_on and camera.turn_off from HA Services.
 
 ### Potential Downsides
 
@@ -40,7 +42,7 @@ wyzeapi:
   username: <email for wyze>
   password: <password for wyze>
 ```
-You can exclude any of the devices.
+All devices are included by default, but can exclude any of them. Also Cameras are exclude by defualt.
 
 ```yaml
 wyzeapi:
@@ -50,7 +52,13 @@ wyzeapi:
   light: false
   switch: false
   lock: false
+  camera:
+    2CAA8E537C67:
+      username: admin
+      password: admin
 ```
+As you see, here is the way to describe the camera credentials.
+
 ## Usage
 
 * Restart HA
