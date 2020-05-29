@@ -25,8 +25,8 @@ ATTR_SERIAL = "serial_number"
 ATTR_SOFTWARE_VERSION = "software_version"
 
 DEFAULT_ATTRIBUTION = "Data provided by Wyze"
-DEFAULT_FFMPEG_ARGUMENTS = "-pred 1 -vcodec copy -vf scale=960:540"
-DEFAULT_FFMPEG_ARGUMENTS_IMAGE = "-vframes 1 -r 1""
+DEFAULT_FFMPEG_ARGUMENTS = "-pred 1 -vcodec copy -fflags +genpts+discardcorrupt"
+DEFAULT_FFMPEG_ARGUMENTS_IMAGE = "-vframes 1"
 
 _RND = SystemRandom()
 
@@ -43,7 +43,6 @@ class WyzeCamera(Camera):
         """Initialize."""
         super().__init__()
 
-        self._async_unsub_dispatcher_connect = None
         self._camera = camera
         self._name = camera._friendly_name
         self._state = camera._state
@@ -52,11 +51,9 @@ class WyzeCamera(Camera):
         self._ssid = camera._ssid
         self._device_mac = camera._device_mac
         self._device_model = camera._device_model
-        self._rtsp_port = camera._rtsp_port
         self._username = "admin"
         self._password = "admin"
         self.is_streaming = False
-        self._rtsp_port = camera._rtsp_port
         self._ffmpeg = hass.data[DATA_FFMPEG]
         self._ffmpeg_arguments = DEFAULT_FFMPEG_ARGUMENTS
         self._ffmpeg_arguments_image = DEFAULT_FFMPEG_ARGUMENTS_IMAGE
@@ -64,9 +61,10 @@ class WyzeCamera(Camera):
         self._ffmpeg_stream = CameraMjpeg(self._ffmpeg.binary, loop=hass.loop)
         self._last_image = None
         self._last_image_url = None
-        self._stream_url = f"rtsp://{self._username}:{self._password}@{self._local_ip}:554/live"
+        self._local_rtsp_port = camera._local_rtsp_port
+        self._stream_url = f"rtsp://{self._username}:{self._password}@{self._local_ip}:{self._local_rtsp_port}/live"
         self.access_tokens = self.update_tokens()
-        self._local_rtsp_port = 554
+
 
     def update_tokens(self):
         """Update the used token."""

@@ -17,7 +17,7 @@ class WyzeCamera():
         self._ssid = ssid
         self._ip = ip
         self._onoffstate = onoffstate
-        self._rtsp_port = '554'
+        self._local_rtsp_port = '554'
 
     async def async_turn_on(self):
         _LOGGER.debug("Camera Switch " + self._friendly_name + " turning on.")
