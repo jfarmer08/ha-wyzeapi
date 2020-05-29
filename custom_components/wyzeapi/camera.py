@@ -1,6 +1,8 @@
 """Define support for Wyze Camera cameras"""
 import asyncio
 import logging
+import hashlib
+from random import SystemRandom
 from enum import Enum
 
 from .wyzeapi.wyzeapi import WyzeApi
@@ -26,6 +28,7 @@ DEFAULT_ATTRIBUTION = "Data provided by Wyze"
 DEFAULT_FFMPEG_ARGUMENTS = " -vcodec copy -maxFPS 30"
 DEFAULT_FFMPEG_ARGUMENTS_IMAGE = "-vframes 1"
 
+_RND = SystemRandom()
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
     """Set up the Wyze camera platform."""
@@ -34,7 +37,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 
 
 class WyzeCamera(Camera):
-    """Define a Eufy Security camera/doorbell."""
+    """Define a Wyze Camera."""
 
     def __init__(self, hass, camera):
         """Initialize."""
@@ -62,8 +65,13 @@ class WyzeCamera(Camera):
         self._last_image = None
         self._last_image_url = None
         self._stream_url = f"rtsp://{self._username}:{self._password}@{self._local_ip}:554/live"
-        self.access_tokens = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhY2U2NDYyNWU3Njk0OTRmODQ1NTg4N2ExNWE3NGU1YSIsImlhdCI6MTU4OTk0ODI1NiwiZXhwIjoxOTA1MzA4MjU2fQ.sRHn0ujj8PIAywTrW6NAavwrWaMEwrvjRfBa1zICyPY"
+        self.access_tokens = self.update_tokens()
         self._local_rtsp_port = 554
+
+    def update_tokens(self):
+        """Update the used token."""
+        token = hashlib.sha256(_RND.getrandbits(256).to_bytes(32, "little")).hexdigest()
+        return token
 
     @property
     def brand(self):
