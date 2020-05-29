@@ -1,4 +1,4 @@
-# Home Assistant - Wyze Bulb, Switch, Sensor and Lock Integration
+# Home Assistant - Wyze Bulb, Switch, Sensor, Lock and Camera(RTSP) Integration
 
 This is a custom component to allow control of Wyze Bulbs and Switches in Homeassistant using the unofficial Wyze API. Please note this mimics the Wyze app and therefore Wyze may cut off access at anytime.
 
