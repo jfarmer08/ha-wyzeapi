@@ -51,7 +51,7 @@ class WyzeCamera(Camera):
         self._device_model = camera._device_model
         self._rtsp_port = camera._rtsp_port
         self._username = "admin"
-        self._password = "Honda125"
+        self._password = "admin"
         self.is_streaming = False
         self._rtsp_port = camera._rtsp_port
         self._ffmpeg = hass.data[DATA_FFMPEG]
