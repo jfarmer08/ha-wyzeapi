@@ -25,8 +25,8 @@ ATTR_SERIAL = "serial_number"
 ATTR_SOFTWARE_VERSION = "software_version"
 
 DEFAULT_ATTRIBUTION = "Data provided by Wyze"
-DEFAULT_FFMPEG_ARGUMENTS = " -vcodec copy -maxFPS 30"
-DEFAULT_FFMPEG_ARGUMENTS_IMAGE = "-vframes 1"
+DEFAULT_FFMPEG_ARGUMENTS = "-pred 1 -vcodec copy -vf scale=960:540"
+DEFAULT_FFMPEG_ARGUMENTS_IMAGE = "-vframes 1 -r 1""
 
 _RND = SystemRandom()
 
