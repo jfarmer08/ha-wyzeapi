@@ -18,6 +18,9 @@ CONF_SENSORS = "sensors"
 CONF_LIGHT = "light"
 CONF_SWITCH = "switch"
 CONF_LOCK = "lock"
+CONF_CAMERAS = "camera"
+
+CAMERA_SCHEMA = vol.Schema(
     {vol.Required(CONF_USERNAME): cv.string, vol.Required(CONF_PASSWORD): cv.string}
 )
 
@@ -71,21 +74,21 @@ https://github.com/JoshuaMulliken/ha-wyzeapi/issues
     # Start up lights and switch components
     if wyzeapi_devices:
         _LOGGER.debug("Starting WyzeApi components")
-    if light_support == True:
-        await discovery.async_load_platform(hass, "light", DOMAIN, {}, config)
-        _LOGGER.debug("Starting WyzeApi Lights")
-    if switch_support == True:
-        await discovery.async_load_platform(hass, "switch", DOMAIN, {}, config)
-        _LOGGER.debug("Starting WyzeApi switchs")
-    if sensor_support == True:
-        await discovery.async_load_platform(hass, "binary_sensor", DOMAIN, {}, config)
-        _LOGGER.debug("Starting WyzeApi Sensors")
-    if lock_support == True:
-        await discovery.async_load_platform(hass, "lock", DOMAIN, {}, config)
-        _LOGGER.debug("Starting WyzeApi lock")
-    if camera_support == True:
-        await discovery.async_load_platform(hass, "camera", DOMAIN, {}, config)
-        _LOGGER.debug("Starting WyzeApi Camera")
+        if light_support == True:
+            await discovery.async_load_platform(hass, "light", DOMAIN, {}, config)
+            _LOGGER.debug("Starting WyzeApi Lights")
+        if switch_support == True:
+            await discovery.async_load_platform(hass, "switch", DOMAIN, {}, config)
+            _LOGGER.debug("Starting WyzeApi switchs")
+        if sensor_support == True:
+            await discovery.async_load_platform(hass, "binary_sensor", DOMAIN, {}, config)
+            _LOGGER.debug("Starting WyzeApi Sensors")
+        if lock_support == True:
+            await discovery.async_load_platform(hass, "lock", DOMAIN, {}, config)
+            _LOGGER.debug("Starting WyzeApi lock")
+        if camera_support == True:
+            await discovery.async_load_platform(hass, "camera", DOMAIN, {}, config)
+            _LOGGER.debug("Starting WyzeApi Camera")
     else:
         _LOGGER.error("WyzeApi authenticated but could not find any devices.")
 
