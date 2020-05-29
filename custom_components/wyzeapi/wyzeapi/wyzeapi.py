@@ -11,9 +11,9 @@ from .wyze_request import WyzeRequest
 from .wyze_bulb import WyzeBulb
 from .wyze_switch import WyzeSwitch
 from .wyze_lock import WyzeLock
+from .wyze_camera import WyzeCamera
 from .sensors.wyze_contact import WyzeContactSensor
 from .sensors.wyze_motion import WyzeMotionSensor
-
 class WyzeApi():
     def __init__(self, user_name, password):
         _LOGGER.debug("Wyze Api initializing.")
@@ -197,6 +197,22 @@ class WyzeApi():
                 ("on" if device['device_params']['open_close_state'] == 1 else "off"),
                 device['product_model']))
         return lock
+    async def async_list_camera(self):
+        _LOGGER.debug("Wyze Api listing wyzecam.")
+        wyzecam = []
+        for device in await self.async_get_devices():
+            _LOGGER.debug(str(device))
+            if (device['product_type'] == "Camera"):#Version V2 
+                wyzecam.append(WyzeCamera(
+                self,
+                device['mac'],
+                device['nickname'],
+                ("on" if device['conn_state'] == 1 else "off"),
+                ("on" if device['device_params']['records_event_switch'] == 1 else "off"),
+                device['device_params']['ssid'],
+                device['device_params']['ip'],
+                device['product_model']))
+        return wyzecam
 
     async def async_do_request(self, url, payload):
         _LOGGER.debug("Wyze Api doing request.")
